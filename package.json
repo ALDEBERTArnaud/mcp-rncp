@@ -1,0 +1,28 @@
+{
+  "name": "mcp-rncp-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "eval"
+  ],
+  "packageManager": "bun@1.3.9",
+  "scripts": {
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "ingest": "bun run --cwd packages/ingest ingest",
+    "fixture": "bun run --cwd packages/ingest fixture",
+    "eval": "bun run --cwd eval eval",
+    "dev:worker": "bun run --cwd apps/worker dev",
+    "build:cli": "bun run --cwd apps/cli build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "@types/node": "^24.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

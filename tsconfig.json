@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/core" },
+    { "path": "packages/ingest" },
+    { "path": "packages/db-sqlite" },
+    { "path": "packages/db-d1" },
+    { "path": "apps/cli" },
+    { "path": "apps/worker" },
+    { "path": "eval" }
+  ]
+}

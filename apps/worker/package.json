@@ -1,0 +1,5 @@
+﻿{
+  "name": "@mcp-rncp/worker",
+  "private": true,
+  "type": "module"
+}

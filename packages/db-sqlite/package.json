@@ -1,0 +1,5 @@
+﻿{
+  "name": "@mcp-rncp/db-sqlite",
+  "private": true,
+  "type": "module"
+}
