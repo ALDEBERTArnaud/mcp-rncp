@@ -121,7 +121,7 @@ un autre élément (code seul), pas un bloc.
 ## FTS5
 
 `certifications_fts` = table FTS5 à **contenu externe** (`content='certifications'`), colonnes
-`numero`, `intitule`, `abrege_libelle`, `competences_attestees`, `activites_visees`,
+`numero`, `intitule`, `abrege_code`, `abrege_libelle`, `competences_attestees`, `activites_visees`,
 `tokenize='unicode61 remove_diacritics 2'`. Contenu externe = pas de duplication des ~100 Mo de texte.
 
 ## `meta`

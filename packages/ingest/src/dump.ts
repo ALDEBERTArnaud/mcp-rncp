@@ -78,15 +78,15 @@ export async function dumpForD1(
 
   const fts = db
     .query(
-      "SELECT id, numero, intitule, abrege_libelle, competences_attestees, activites_visees FROM certifications ORDER BY id",
+      "SELECT id, numero, intitule, abrege_code, abrege_libelle, competences_attestees, activites_visees FROM certifications ORDER BY id",
     )
     .iterate() as Iterable<Record<string, unknown>>;
   const head =
-    "INSERT INTO certifications_fts (rowid, numero, intitule, abrege_libelle, competences_attestees, activites_visees) VALUES ";
+    "INSERT INTO certifications_fts (rowid, numero, intitule, abrege_code, abrege_libelle, competences_attestees, activites_visees) VALUES ";
   let buf: string[] = [];
   let size = head.length;
   for (const r of fts) {
-    const tuple = `(${lit(r.id)},${lit(r.numero)},${lit(r.intitule)},${lit(r.abrege_libelle)},${lit(r.competences_attestees)},${lit(r.activites_visees)})`;
+    const tuple = `(${lit(r.id)},${lit(r.numero)},${lit(r.intitule)},${lit(r.abrege_code)},${lit(r.abrege_libelle)},${lit(r.competences_attestees)},${lit(r.activites_visees)})`;
     if (size + tuple.length + 1 > MAX_STMT && buf.length) {
       await write(`${head}${buf.join(",")};\n`);
       statements++;

@@ -43,19 +43,26 @@ export function tokenize(query: string): string[] {
     .filter((t) => t.length > 1 && !STOP.has(t));
 }
 
+// Columns used by the relaxed (OR) mode: titles only, so long skill texts cannot hijack ranking.
+const TITLE_COLS = "{intitule abrege_code abrege_libelle}";
+
+const term = (t: string) => (t.length >= 3 ? `"${t}"*` : `"${t}"`);
+
 export function buildMatch(
   tokens: string[],
   synonymes: Map<string, string>,
   mode: "and" | "or",
 ): string {
   const groups = tokens.map((t) => {
-    const alts = [t.length >= 3 ? `"${t}"*` : `"${t}"`];
+    const alts = [term(t)];
     const exp = synonymes.get(t);
     if (exp) {
-      const words = tokenize(exp);
-      if (words.length) alts.push(words.length === 1 ? `"${words[0]}"*` : `"${words.join(" ")}"`);
+      const words = tokenize(exp).map(term);
+      if (words.length === 1) alts.push(words[0]!);
+      else if (words.length > 1) alts.push(`(${words.join(" AND ")})`);
     }
     return alts.length === 1 ? alts[0]! : `(${alts.join(" OR ")})`;
   });
-  return groups.join(mode === "and" ? " AND " : " OR ");
+  if (mode === "and") return groups.join(" AND ");
+  return `${TITLE_COLS}: (${groups.join(" OR ")})`;
 }

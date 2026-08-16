@@ -111,7 +111,7 @@ CREATE TABLE meta (
 );
 
 CREATE VIRTUAL TABLE certifications_fts USING fts5(
-  numero, intitule, abrege_libelle, competences_attestees, activites_visees,
+  numero, intitule, abrege_code, abrege_libelle, competences_attestees, activites_visees,
   content='certifications', content_rowid='id',
   tokenize='unicode61 remove_diacritics 2'
 );

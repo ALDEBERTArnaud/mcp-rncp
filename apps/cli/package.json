@@ -1,5 +1,55 @@
-﻿{
-  "name": "@mcp-rncp/cli",
-  "private": true,
-  "type": "module"
+{
+  "name": "mcp-rncp",
+  "version": "0.1.0",
+  "description": "MCP server for the French RNCP / RS registers of professional certifications (France compétences open data). Local stdio server with embedded SQLite, no API key.",
+  "license": "MIT",
+  "author": "Arnaud Aldebert <arnaudtishu@gmail.com>",
+  "homepage": "https://github.com/ALDEBERTArnaud/mcp-rncp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALDEBERTArnaud/mcp-rncp.git",
+    "directory": "apps/cli"
+  },
+  "bugs": "https://github.com/ALDEBERTArnaud/mcp-rncp/issues",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "rncp",
+    "rs",
+    "france-competences",
+    "certification",
+    "formation",
+    "cpf",
+    "edof",
+    "qualiopi"
+  ],
+  "type": "module",
+  "bin": {
+    "mcp-rncp": "dist/mcp-rncp.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "build": "bun build src/main.ts --target=node --format=esm --outfile=dist/mcp-rncp.mjs --minify-syntax",
+    "postbuild": "bun -e \"const f='dist/mcp-rncp.mjs';const s=await Bun.file(f).text();if(!s.startsWith('#!'))await Bun.write(f,'#!/usr/bin/env node\\n'+s)\"",
+    "dev": "bun run src/main.ts",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@mcp-rncp/core": "workspace:*",
+    "@mcp-rncp/db-sqlite": "workspace:*",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

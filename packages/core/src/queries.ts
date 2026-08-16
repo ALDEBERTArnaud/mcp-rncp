@@ -235,7 +235,7 @@ export async function searchCertifications(
     const match = buildMatch(tokens, syn, mode);
     const hits = await db.all<SearchHit>(
       `SELECT c.numero, c.intitule, c.repertoire, c.niveau, c.actif, c.date_fin_enregistrement, c.abrege_libelle,
-              round(-bm25(certifications_fts, 0.0, 10.0, 4.0, 1.0, 1.0), 3) AS score
+              round(-bm25(certifications_fts, 0.0, 10.0, 6.0, 4.0, 1.0, 1.0), 3) AS score
        FROM certifications_fts f JOIN certifications c ON c.id = f.rowid
        WHERE certifications_fts MATCH ? ${whereSql}
        ORDER BY score DESC, c.actif DESC LIMIT ?`,
