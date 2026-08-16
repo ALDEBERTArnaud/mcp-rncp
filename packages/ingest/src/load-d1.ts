@@ -1,6 +1,8 @@
 // Loads rncp.sql into the older blue/green D1 slot of an environment, then verifies the swap.
 //   bun run src/load-d1.ts --env production|staging --sql .data/out/rncp.sql --health https://…/health
 // Requires wrangler auth (CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID) and runs from apps/worker.
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 const { values: args } = parseArgs({
@@ -17,6 +19,7 @@ const SLOTS: Record<string, string[]> = {
   staging: ["rncp-staging-a", "rncp-staging-b"],
 };
 const slots = SLOTS[args.env!];
+const sqlPath = resolve(args.sql!);
 if (!slots) throw new Error(`unknown env ${args.env}`);
 
 const log = (msg: string, extra: Record<string, unknown> = {}) =>
@@ -24,7 +27,7 @@ const log = (msg: string, extra: Record<string, unknown> = {}) =>
 
 async function wrangler(argv: string[], quiet = false): Promise<string> {
   const p = Bun.spawn(["bunx", "wrangler", ...argv], {
-    cwd: new URL("../../../apps/worker", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"),
+    cwd: fileURLToPath(new URL("../../../apps/worker", import.meta.url)),
     stdout: "pipe",
     stderr: quiet ? "pipe" : "inherit",
     env: { ...process.env, CI: "true" },
@@ -65,9 +68,9 @@ slots.forEach((s, i) => log("slot", { db: s, ...metas[i] }));
 let target = slots.findIndex((_, i) => metas[i]!.status !== "ready");
 if (target < 0) target = metas[0]!.source_date! <= metas[1]!.source_date! ? 0 : 1;
 const db = slots[target]!;
-log("loading", { db, sql: args.sql });
+log("loading", { db, sql: sqlPath });
 const t0 = Date.now();
-await wrangler(["d1", "execute", db, "--remote", "--yes", "--file", args.sql!]);
+await wrangler(["d1", "execute", db, "--remote", "--yes", "--file", sqlPath]);
 log("loaded", { db, seconds: Math.round((Date.now() - t0) / 1000) });
 
 const after = await slotMeta(db);
