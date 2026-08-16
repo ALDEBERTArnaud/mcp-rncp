@@ -1,5 +1,18 @@
-﻿{
+{
   "name": "@mcp-rncp/db-sqlite",
+  "version": "0.1.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@mcp-rncp/core": "workspace:*"
+  }
 }

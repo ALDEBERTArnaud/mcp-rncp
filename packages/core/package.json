@@ -1,5 +1,20 @@
-﻿{
+{
   "name": "@mcp-rncp/core",
+  "version": "0.1.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@mcp-rncp/db-sqlite": "workspace:*",
+    "@modelcontextprotocol/client": "^2.0.0"
+  }
 }
