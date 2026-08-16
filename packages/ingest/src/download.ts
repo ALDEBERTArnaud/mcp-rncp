@@ -1,5 +1,7 @@
-import { createWriteStream, existsSync, mkdirSync, statSync } from "node:fs";
+import { createWriteStream, existsSync, mkdirSync, renameSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { Unzip, UnzipInflate } from "fflate";
 
 export const DATASET_ID = "5eebbc067a14b6fecc9c9976";
@@ -35,7 +37,12 @@ export async function downloadTo(url: string, dest: string): Promise<void> {
   if (existsSync(dest) && statSync(dest).size > 0) return;
   const res = await fetch(url);
   if (!res.ok || !res.body) throw new Error(`download ${url}: ${res.status}`);
-  await Bun.write(dest, res);
+  const tmp = `${dest}.part`;
+  await pipeline(
+    Readable.fromWeb(res.body as import("node:stream/web").ReadableStream),
+    createWriteStream(tmp),
+  );
+  renameSync(tmp, dest);
 }
 
 // Extract the single XML entry of an export zip; returns the extracted path.
