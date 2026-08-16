@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.aldebertarnaud/mcp-rncp",
+  "title": "RNCP / RS — certifications professionnelles (France compétences)",
+  "description": "French RNCP/RS registers of professional certifications: search, sheets, blocs de compétences, validity, SIRET habilitation. Open data, no API key.",
+  "websiteUrl": "https://github.com/ALDEBERTArnaud/mcp-rncp",
+  "repository": {
+    "url": "https://github.com/ALDEBERTArnaud/mcp-rncp",
+    "source": "github",
+    "subfolder": "apps/cli"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "mcp-rncp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-rncp.arnaud-aldebert.dev/mcp"
+    }
+  ]
+}
