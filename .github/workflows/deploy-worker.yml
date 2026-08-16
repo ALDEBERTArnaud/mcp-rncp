@@ -1,0 +1,46 @@
+name: Deploy Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/worker/**"
+      - "packages/core/**"
+      - "packages/db-d1/**"
+      - "bun.lock"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+      - run: bun install --frozen-lockfile
+      - name: Deploy staging
+        working-directory: apps/worker
+        run: bunx wrangler deploy --env staging
+      - name: Smoke staging
+        run: |
+          curl -fsS https://staging-mcp-rncp.arnaud-aldebert.dev/health | tee /tmp/h.json
+          jq -e '.ok == true' /tmp/h.json
+          curl -fsS -X POST https://staging-mcp-rncp.arnaud-aldebert.dev/mcp \
+            -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | grep -q search_certifications
+      - name: Deploy production
+        working-directory: apps/worker
+        run: bunx wrangler deploy
+      - name: Smoke production
+        run: |
+          curl -fsS https://mcp-rncp.arnaud-aldebert.dev/health | jq -e '.ok == true'

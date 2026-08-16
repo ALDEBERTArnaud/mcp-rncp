@@ -1,5 +1,18 @@
-﻿{
+{
   "name": "@mcp-rncp/db-d1",
+  "version": "0.1.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@mcp-rncp/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250816.0"
+  }
 }

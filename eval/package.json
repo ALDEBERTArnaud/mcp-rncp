@@ -1,5 +1,15 @@
-﻿{
+{
   "name": "@mcp-rncp/eval",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "eval": "node run.ts",
+    "eval:full": "node run.ts --db ../.data/out/rncp.sqlite --verbose",
+    "typecheck": "tsc -b"
+  },
+  "devDependencies": {
+    "@mcp-rncp/core": "workspace:*",
+    "@mcp-rncp/db-sqlite": "workspace:*",
+    "@modelcontextprotocol/client": "^2.0.0"
+  }
 }

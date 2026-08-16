@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: bun install --frozen-lockfile
+      - name: Lint
+        run: bun run lint
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Build CLI bundle
+        run: bun run build:cli
+      - name: Tests (fixture, no network)
+        run: bun run test
+      - name: Evals (recall@5 >= 0.8 on fixture)
+        run: bun run eval
+      - name: Worker dry-run
+        working-directory: apps/worker
+        run: bunx wrangler deploy --dry-run --outdir /tmp/worker-dist

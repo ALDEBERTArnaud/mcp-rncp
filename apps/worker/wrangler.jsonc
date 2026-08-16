@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mcp-rncp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "PUBLIC_URL": "https://mcp-rncp.arnaud-aldebert.dev"
+  },
+  // Blue/green data slots: ingest.yml reloads the older slot, the Worker serves the newest ready one.
+  "d1_databases": [
+    { "binding": "DB_A", "database_name": "rncp-a", "database_id": "REPLACE_ME" },
+    { "binding": "DB_B", "database_name": "rncp-b", "database_id": "REPLACE_ME" }
+  ],
+  "ratelimits": [{ "name": "RL", "namespace_id": "2001", "simple": { "limit": 60, "period": 60 } }],
+  "routes": [{ "pattern": "mcp-rncp.arnaud-aldebert.dev", "custom_domain": true }],
+  "env": {
+    "staging": {
+      "name": "mcp-rncp-staging",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "PUBLIC_URL": "https://staging-mcp-rncp.arnaud-aldebert.dev"
+      },
+      "d1_databases": [
+        { "binding": "DB_A", "database_name": "rncp-staging-a", "database_id": "REPLACE_ME" },
+        { "binding": "DB_B", "database_name": "rncp-staging-b", "database_id": "REPLACE_ME" }
+      ],
+      "ratelimits": [
+        { "name": "RL", "namespace_id": "2002", "simple": { "limit": 60, "period": 60 } }
+      ],
+      "routes": [{ "pattern": "staging-mcp-rncp.arnaud-aldebert.dev", "custom_domain": true }]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "_comment": "Real questions. search: recall@5 = at least one expected numero in top 5. validity/habilitation: exact. Cases whose expected numeros are absent from the database under test are skipped (fixture in CI, full data locally).",
+  "search": [
+    { "query": "développeur web", "expect": ["RNCP37674", "RNCP35959"] },
+    { "query": "dev web", "expect": ["RNCP37674", "RNCP35959"] },
+    { "query": "concepteur développeur d'applications", "expect": ["RNCP37873", "RNCP36490"] },
+    { "query": "cybersécurité", "niveau": 6, "expect": ["RNCP37300"] },
+    { "query": "responsable en cybersécurité", "expect": ["RNCP37300"] },
+    { "query": "cybersécurité", "expect": ["RS5568", "RNCP37488", "RNCP37300"] },
+    { "query": "assistant RH", "expect": ["RNCP41366", "RNCP41437", "RNCP38045", "RNCP36612"] },
+    {
+      "query": "RH",
+      "niveau": 5,
+      "expect": ["RNCP41366", "RNCP41437", "RNCP38045", "RNCP36612", "RNCP39529"]
+    },
+    {
+      "query": "chargé des ressources humaines",
+      "niveau": 6,
+      "expect": ["RNCP42617", "RNCP42313", "RNCP41805", "RNCP41797"]
+    },
+    {
+      "query": "gestionnaire de paie",
+      "expect": ["RNCP42350", "RNCP41655", "RNCP38147", "RNCP37948"]
+    },
+    { "query": "CAP cuisine", "expect": ["RNCP38430"] },
+    { "query": "BTS management commercial opérationnel", "expect": ["RNCP38362"] },
+    { "query": "BTS MCO", "expect": ["RNCP38362"] },
+    { "query": "BTS comptabilité gestion", "expect": ["RNCP39159"] },
+    { "query": "infirmier", "expect": ["RNCP42589", "RNCP39923"] },
+    { "query": "aide soignant", "expect": ["RNCP40692"] },
+    { "query": "CACES chariot", "expect": ["RS7049", "RS6873", "RS6872", "RS6871"] },
+    { "query": "TOEIC", "expect": ["RS7229"] },
+    { "query": "conducteur routier marchandises", "expect": ["RNCP39796", "RNCP39795"] },
+    { "query": "chauffeur poids lourd", "expect": ["RNCP39796", "RNCP39795"] },
+    { "query": "data analyst", "expect": ["RNCP42652", "RNCP37837"] },
+    {
+      "query": "administrateur systèmes et réseaux",
+      "expect": ["RNCP39996", "RNCP41996", "RNCP41807", "RNCP40356"]
+    },
+    { "query": "sysadmin", "expect": ["RNCP39996", "RNCP41996", "RNCP41807", "RNCP40356"] },
+    { "query": "diplôme d'expertise comptable", "expect": ["RNCP41385"] },
+    { "query": "master droit des affaires", "expect": ["RNCP38159"] },
+    { "query": "CAP coiffure", "expect": ["RNCP39266"] },
+    { "query": "CAP boulanger", "expect": ["RNCP42115"] },
+    { "query": "auxiliaire de puériculture", "expect": ["RNCP40743"] },
+    { "query": "moniteur éducateur", "expect": ["RNCP39643"] },
+    { "query": "formateur professionnel d'adultes", "expect": ["RNCP37275"] },
+    { "query": "formateur pour adultes", "expect": ["RNCP37275"] },
+    { "query": "chef de projet digital", "expect": ["RNCP42627", "RNCP40857", "RNCP41981"] },
+    { "query": "télépilote de drone", "expect": ["RS7662", "RS7219", "RS6691", "RS6539"] },
+    { "query": "drone", "expect": ["RS7662", "RS7219", "RS6691", "RS6539"] },
+    { "query": "CAP électricien", "expect": ["RNCP38401"] },
+    { "query": "électricien", "expect": ["RNCP38880", "RNCP38401", "RNCP38561"] },
+    { "query": "CAP esthétique", "expect": ["RNCP39030"] },
+    { "query": "excel", "expect": ["RS7536", "RS7520", "RS7256"] },
+    { "query": "secrétaire assistant", "expect": ["RNCP38037", "RNCP40800"] },
+    {
+      "query": "titre professionnel secrétaire assistant médico administratif",
+      "expect": ["RNCP40800"]
+    },
+    { "query": "enseigner l'anglais", "expect": ["RS6547"] },
+    { "query": "premiers secours en équipe", "expect": ["RS5719"] },
+    { "query": "IA ressources humaines", "expect": ["RS7423"] },
+    { "query": "repérage amiante navires", "expect": ["RS7485"] },
+    { "query": "blockchain développement applications", "expect": ["RS6604"] },
+    { "query": "auxiliaire vétérinaire", "expect": ["RNCP40344"] }
+  ],
+  "validity": [
+    { "numero": "RNCP35419", "actif": false },
+    { "numero": "35419", "actif": false },
+    { "numero": "RNCP37674", "actif": true },
+    { "numero": "RNCP35959", "actif": true },
+    { "numero": "RS5000", "actif": false, "remplacee_par": ["RS6604"] },
+    { "numero": "RS6604", "actif": true },
+    { "numero": "RS6232", "actif": false, "remplacee_par": ["RS7485"] }
+  ],
+  "habilitation": [
+    {
+      "numero": "RNCP37674",
+      "siret": "88055223700047",
+      "habilite": true,
+      "roles": ["former", "evaluer"]
+    },
+    { "numero": "RNCP37674", "siret": "880552237", "habilite": true },
+    { "numero": "RNCP35419", "siret": "80875076400025", "habilite": false },
+    { "numero": "RNCP37674", "siret": "00000000000000", "habilite": false }
+  ]
+}

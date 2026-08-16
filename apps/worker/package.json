@@ -1,5 +1,23 @@
-﻿{
+{
   "name": "@mcp-rncp/worker",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "typecheck": "tsc -b",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "@mcp-rncp/core": "workspace:*",
+    "@mcp-rncp/db-d1": "workspace:*",
+    "@modelcontextprotocol/hono": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "hono": "^4.13.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250816.0",
+    "wrangler": "^4.123.0"
+  }
 }
