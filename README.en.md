@@ -7,7 +7,7 @@ Read-only [MCP](https://modelcontextprotocol.io) server over France compétences
 LLM, every answer carries its source and data date.
 
 🇫🇷 [README en français](README.md) · 📦 [`npx -y mcp-rncp`](https://www.npmjs.com/package/mcp-rncp) ·
-🌐 `https://mcp-rncp.arnaud-aldebert.dev/mcp` · 📄 [Data licence](docs/LICENCE-DONNEES.md)
+🌐 `https://mcp-rncp.com/mcp` · 📄 [Data licence](docs/LICENCE-DONNEES.md)
 
 ## Why
 
@@ -37,11 +37,11 @@ LLM, every answer carries its source and data date.
 First run downloads the database (~90 MB brotli) to `~/.cache/mcp-rncp` (Windows: `%LOCALAPPDATA%\mcp-rncp`),
 verifies SHA-256, then refreshes weekly in the background.
 
-**Claude.ai / Claude Code / Cursor (hosted, Streamable HTTP)** — `https://mcp-rncp.arnaud-aldebert.dev/mcp`,
+**Claude.ai / Claude Code / Cursor (hosted, Streamable HTTP)** — `https://mcp-rncp.com/mcp`,
 no auth, 60 requests/min per IP.
 
 ```bash
-claude mcp add --transport http rncp https://mcp-rncp.arnaud-aldebert.dev/mcp
+claude mcp add --transport http rncp https://mcp-rncp.com/mcp
 ```
 
 ## Tools

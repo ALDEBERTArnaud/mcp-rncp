@@ -22,7 +22,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp-rncp.arnaud-aldebert.dev/mcp"
+      "url": "https://mcp-rncp.com/mcp"
     }
   ]
 }

@@ -7,30 +7,46 @@
   "observability": { "enabled": true },
   "vars": {
     "ENVIRONMENT": "production",
-    "PUBLIC_URL": "https://mcp-rncp.arnaud-aldebert.dev"
+    "PUBLIC_URL": "https://mcp-rncp.com"
   },
   // Blue/green data slots: ingest.yml reloads the older slot, the Worker serves the newest ready one.
   "d1_databases": [
-    { "binding": "DB_A", "database_name": "rncp-a", "database_id": "REPLACE_ME" },
-    { "binding": "DB_B", "database_name": "rncp-b", "database_id": "REPLACE_ME" }
+    {
+      "binding": "DB_A",
+      "database_name": "rncp-a",
+      "database_id": "c27d1d52-199a-4066-b700-343cfd921c71"
+    },
+    {
+      "binding": "DB_B",
+      "database_name": "rncp-b",
+      "database_id": "ed8ace6e-7d57-4287-8389-cf1b971dfbfe"
+    }
   ],
   "ratelimits": [{ "name": "RL", "namespace_id": "2001", "simple": { "limit": 60, "period": 60 } }],
-  "routes": [{ "pattern": "mcp-rncp.arnaud-aldebert.dev", "custom_domain": true }],
+  "routes": [{ "pattern": "mcp-rncp.com", "custom_domain": true }],
   "env": {
     "staging": {
       "name": "mcp-rncp-staging",
       "vars": {
         "ENVIRONMENT": "staging",
-        "PUBLIC_URL": "https://staging-mcp-rncp.arnaud-aldebert.dev"
+        "PUBLIC_URL": "https://staging.mcp-rncp.com"
       },
       "d1_databases": [
-        { "binding": "DB_A", "database_name": "rncp-staging-a", "database_id": "REPLACE_ME" },
-        { "binding": "DB_B", "database_name": "rncp-staging-b", "database_id": "REPLACE_ME" }
+        {
+          "binding": "DB_A",
+          "database_name": "rncp-staging-a",
+          "database_id": "f5719e59-b264-48da-a451-03744f0e1a89"
+        },
+        {
+          "binding": "DB_B",
+          "database_name": "rncp-staging-b",
+          "database_id": "97783039-fe8d-434f-87bf-511356a5a505"
+        }
       ],
       "ratelimits": [
         { "name": "RL", "namespace_id": "2002", "simple": { "limit": 60, "period": 60 } }
       ],
-      "routes": [{ "pattern": "staging-mcp-rncp.arnaud-aldebert.dev", "custom_domain": true }]
+      "routes": [{ "pattern": "staging.mcp-rncp.com", "custom_domain": true }]
     }
   }
 }

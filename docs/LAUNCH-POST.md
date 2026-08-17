@@ -30,7 +30,7 @@ Zéro clé API, zéro LLM côté serveur, réponses sourcées et datées (donné
 Ouverte 2.0, rafraîchies chaque semaine).
 
 - Local : `npx -y mcp-rncp`
-- Hébergé : https://mcp-rncp.arnaud-aldebert.dev/mcp
+- Hébergé : https://mcp-rncp.com/mcp
 - Code (MIT) : https://github.com/ALDEBERTArnaud/mcp-rncp
 
 Retours bienvenus, surtout des OF/CFA qui préparent l'échéance EDOF. Une v2 « Pro » (vérification de catalogue en

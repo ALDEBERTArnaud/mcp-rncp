@@ -76,14 +76,14 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: bun run --cwd packages/ingest src/load-d1.ts --env staging --sql ../../.data/out/rncp.sql --expected-date "$SOURCE_DATE" --health https://staging-mcp-rncp.arnaud-aldebert.dev/health
+        run: bun run --cwd packages/ingest src/load-d1.ts --env staging --sql ../../.data/out/rncp.sql --expected-date "$SOURCE_DATE" --health https://staging.mcp-rncp.com/health
 
       - name: Load D1 production
         if: ${{ github.event_name == 'schedule' || inputs.load_d1 }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: bun run --cwd packages/ingest src/load-d1.ts --env production --sql ../../.data/out/rncp.sql --expected-date "$SOURCE_DATE" --health https://mcp-rncp.arnaud-aldebert.dev/health
+        run: bun run --cwd packages/ingest src/load-d1.ts --env production --sql ../../.data/out/rncp.sql --expected-date "$SOURCE_DATE" --health https://mcp-rncp.com/health
 
       - name: Summary
         run: |

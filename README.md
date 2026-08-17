@@ -7,7 +7,7 @@ professionnelles (données ouvertes France compétences). Zéro clé API, zéro 
 et datées.
 
 🇬🇧 [English README](README.en.md) · 📦 [`npx -y mcp-rncp`](https://www.npmjs.com/package/mcp-rncp) ·
-🌐 `https://mcp-rncp.arnaud-aldebert.dev/mcp` · 📄 [Licence des données](docs/LICENCE-DONNEES.md)
+🌐 `https://mcp-rncp.com/mcp` · 📄 [Licence des données](docs/LICENCE-DONNEES.md)
 
 ---
 
@@ -48,16 +48,16 @@ vérification SHA-256, puis mise à jour hebdomadaire silencieuse.
 
 ### Claude.ai / Claude Code / Cursor (hébergé, Streamable HTTP)
 
-URL du connecteur : `https://mcp-rncp.arnaud-aldebert.dev/mcp` — sans authentification, 60 requêtes/min par IP.
+URL du connecteur : `https://mcp-rncp.com/mcp` — sans authentification, 60 requêtes/min par IP.
 
 ```bash
-claude mcp add --transport http rncp https://mcp-rncp.arnaud-aldebert.dev/mcp
+claude mcp add --transport http rncp https://mcp-rncp.com/mcp
 ```
 
 Cursor (`.cursor/mcp.json`) :
 
 ```json
-{ "mcpServers": { "rncp": { "url": "https://mcp-rncp.arnaud-aldebert.dev/mcp" } } }
+{ "mcpServers": { "rncp": { "url": "https://mcp-rncp.com/mcp" } } }
 ```
 
 ## Outils

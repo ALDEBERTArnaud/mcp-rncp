@@ -33,9 +33,9 @@ jobs:
         run: bunx wrangler deploy --env staging
       - name: Smoke staging
         run: |
-          curl -fsS https://staging-mcp-rncp.arnaud-aldebert.dev/health | tee /tmp/h.json
+          curl -fsS https://staging.mcp-rncp.com/health | tee /tmp/h.json
           jq -e '.ok == true' /tmp/h.json
-          curl -fsS -X POST https://staging-mcp-rncp.arnaud-aldebert.dev/mcp \
+          curl -fsS -X POST https://staging.mcp-rncp.com/mcp \
             -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' \
             -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | grep -q search_certifications
       - name: Deploy production
@@ -43,4 +43,4 @@ jobs:
         run: bunx wrangler deploy
       - name: Smoke production
         run: |
-          curl -fsS https://mcp-rncp.arnaud-aldebert.dev/health | jq -e '.ok == true'
+          curl -fsS https://mcp-rncp.com/health | jq -e '.ok == true'
