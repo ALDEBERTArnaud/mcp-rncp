@@ -2,7 +2,8 @@
 import { createServer, type Db, SERVER_VERSION } from "@mcp-rncp/core";
 import { pickReadySlot, type Slot } from "@mcp-rncp/db-d1";
 import { createMcpHandler } from "@modelcontextprotocol/server";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
+import { docsHtml, landingHtml, llmsTxt, ROBOTS, type Stats, sitemapXml } from "./pages.ts";
 
 type Env = {
   DB_A: D1Database;
@@ -59,21 +60,29 @@ app.use("*", async (c, next) => {
   c.header("Cache-Control", c.res.headers.get("Cache-Control") ?? "no-store");
 });
 
-app.get("/", (c) =>
-  c.json({
-    name: "mcp-rncp",
-    version: SERVER_VERSION,
-    description:
-      "MCP server over the French RNCP / RS registers of professional certifications (France compétences open data).",
-    mcp_endpoint: `${c.env.PUBLIC_URL}/mcp`,
-    transport: "streamable-http",
-    auth: "none (read-only, rate limited per IP)",
-    local_alternative: "npx -y mcp-rncp",
-    docs: "https://github.com/ALDEBERTArnaud/mcp-rncp",
-    source: "France compétences (data.gouv.fr) — Licence Ouverte 2.0",
-    health: `${c.env.PUBLIC_URL}/health`,
-  }),
+async function stats(env: Env): Promise<Stats> {
+  try {
+    const slot = await currentSlot(env);
+    const rows = await slot.db.all<{ key: string; value: string }>("SELECT key, value FROM meta");
+    return Object.fromEntries(rows.map((r) => [r.key, r.value])) as Stats;
+  } catch {
+    return {};
+  }
+}
+
+const page = (c: Context<{ Bindings: Env }>, body: string, type: string) => {
+  c.header("Content-Type", type);
+  c.header("Cache-Control", "public, max-age=3600");
+  return c.body(body);
+};
+
+app.get("/", async (c) => page(c, landingHtml(await stats(c.env)), "text/html; charset=utf-8"));
+app.get("/docs", async (c) => page(c, docsHtml(await stats(c.env)), "text/html; charset=utf-8"));
+app.get("/llms.txt", async (c) =>
+  page(c, llmsTxt(await stats(c.env)), "text/plain; charset=utf-8"),
 );
+app.get("/sitemap.xml", async (c) => page(c, sitemapXml(await stats(c.env)), "application/xml"));
+app.get("/robots.txt", (c) => page(c, ROBOTS, "text/plain; charset=utf-8"));
 
 app.get("/health", async (c) => {
   try {
@@ -186,7 +195,16 @@ app.all("/mcp", async (c) => {
   return res;
 });
 
-app.notFound((c) => c.json({ error: "not found", mcp_endpoint: `${c.env.PUBLIC_URL}/mcp` }, 404));
+app.notFound((c) =>
+  c.json(
+    {
+      error: "not found",
+      docs: `${c.env.PUBLIC_URL}/docs`,
+      mcp_endpoint: `${c.env.PUBLIC_URL}/mcp`,
+    },
+    404,
+  ),
+);
 
 function log(fields: Record<string, unknown>) {
   console.log(JSON.stringify({ level: "info", ...fields, ip: String(fields.ip).slice(0, 16) }));
