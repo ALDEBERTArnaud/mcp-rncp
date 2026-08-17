@@ -266,7 +266,7 @@ export function registerTools(server: McpServer, deps: ToolDeps): void {
   server.registerTool(
     "list_blocs",
     {
-      title: "List blocs de compétences",
+      title: "List skill blocs (blocs de compétences)",
       description:
         "Blocs de compétences of an RNCP certification (code RNCPxxxxxBCyy, title, skills, assessment methods), in the order and wording expected by EDOF / Mon Compte Formation forms. RS certifications have no blocs. Example (FR): « Liste les blocs de compétences du RNCP 37674 à renseigner dans EDOF. »",
       inputSchema: z.object({ numero: numeroSchema }),
