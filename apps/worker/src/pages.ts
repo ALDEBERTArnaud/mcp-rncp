@@ -473,7 +473,7 @@ export function landingHtml(stats: Stats): string {
   return layout({
     title: "mcp-rncp — RNCP et RS dans Claude, ChatGPT, Cursor (serveur MCP gratuit)",
     description:
-      "Serveur MCP gratuit et open source pour interroger le RNCP et le RS de France compétences depuis Claude, ChatGPT ou Cursor : validité d'une certification, blocs de compétences EDOF, habilitation d'un SIRET, recherche. Créé par Arnaud Aldebert.",
+      "Serveur MCP gratuit et open source pour interroger le RNCP et le RS de France compétences depuis Claude, ChatGPT ou Cursor : validité d'une certification, blocs de compétences EDOF, habilitation d'un SIRET, recherche. Un projet que je développe et maintiens — Arnaud Aldebert, développeur IA à Nîmes.",
     path: "/",
     body,
     jsonld: [websiteLd, softwareLd(stats), faqLd],
@@ -604,7 +604,7 @@ export function docsHtml(stats: Stats): string {
   return layout({
     title: "Documentation mcp-rncp — installer et utiliser le serveur MCP RNCP / RS",
     description:
-      "Guide complet du serveur MCP RNCP/RS : installation dans Claude, ChatGPT, Cursor ou en local (npx mcp-rncp), description des 9 outils, exemples de prompts, format des réponses, données France compétences, limites.",
+      "Mon guide complet du serveur MCP RNCP/RS : installation dans Claude, ChatGPT, Cursor ou en local (npx mcp-rncp), description des 9 outils, exemples de prompts, format des réponses, données France compétences, limites.",
     path: "/docs",
     body,
     jsonld: [
@@ -638,7 +638,7 @@ export function llmsTxt(stats: Stats): string {
 
 > Serveur MCP (Model Context Protocol) gratuit et open source donnant accès au RNCP et au RS de France compétences
 > (certifications professionnelles françaises) depuis Claude, ChatGPT, Cursor ou tout client MCP.
-> Créé et maintenu par Arnaud Aldebert (https://arnaud-aldebert.dev), développeur fullstack & systèmes IA, Nîmes.
+> Je suis Arnaud Aldebert (https://arnaud-aldebert.dev), développeur fullstack & systèmes IA à Nîmes : je développe et maintiens ce serveur.
 
 Endpoint MCP hébergé (Streamable HTTP, sans auth, 60 req/min/IP) : https://mcp-rncp.com/mcp
 Version locale : npx -y mcp-rncp (Node ≥ 22.16)
