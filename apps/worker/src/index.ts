@@ -5,6 +5,7 @@ import { createMcpHandler } from "@modelcontextprotocol/server";
 import { type Context, Hono } from "hono";
 import {
   docsHtml,
+  FAVICON_SVG,
   LOGO_SVG,
   landingHtml,
   llmsTxt,
@@ -92,7 +93,7 @@ app.get("/llms.txt", async (c) =>
 app.get("/sitemap.xml", async (c) => page(c, sitemapXml(await stats(c.env)), "application/xml"));
 app.get("/robots.txt", (c) => page(c, ROBOTS, "text/plain; charset=utf-8"));
 app.get("/logo.svg", (c) => page(c, LOGO_SVG, "image/svg+xml"));
-app.get("/favicon.svg", (c) => page(c, LOGO_SVG, "image/svg+xml"));
+app.get("/favicon.svg", (c) => page(c, FAVICON_SVG, "image/svg+xml"));
 app.get("/favicon.ico", (c) => c.redirect("/favicon.svg", 301));
 
 app.get("/health", async (c) => {

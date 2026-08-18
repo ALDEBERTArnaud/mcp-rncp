@@ -1,65 +1,66 @@
-# Post de lancement (brouillon) — chiffres issus de l'export du 16/08/2026
+# Post de lancement — prêt à publier
 
-## Chiffre inédit
+Chiffres calculés sur l'export France compétences du 16/08/2026 (requêtes en bas de page ; à rafraîchir le jour J
+avec `bun run eval:full` ou les SQL ci-dessous sur `.data/out/rncp.sqlite`).
 
-**614 certifications RNCP actives arrivent à échéance entre aujourd'hui et le 22 octobre 2026** — la date à laquelle
-les offres sans blocs de compétences renseignés deviennent invisibles sur Mon Compte Formation.
-D'ici le 31/12/2026 : **1 076 fiches actives expirent** (791 RNCP + 285 RS), dont 353 de niveau 7 et 216 de niveau 6.
-Et **244 fiches RNCP actives n'ont aucun bloc de compétences** publié.
+## LinkedIn (FR) — version finale
 
-(Requêtes SQL reproductibles sur `rncp.sqlite` : voir `docs/LAUNCH-POST.md` dans le repo.)
+J'ai passé les derniers jours à construire un truc dont j'avais besoin depuis longtemps.
 
-## LinkedIn (FR)
+Si vous êtes organisme de formation, OPCO, RH ou CFA, vous vous êtes déjà posé ces questions :
+« Le RNCP 35419 est-il encore actif ? », « Mon SIRET est-il habilité pour former ET évaluer ? »,
+« Quels blocs de compétences dois-je cocher dans EDOF ? »
 
-Vous êtes organisme de formation, OPCO, RH ? Vous avez déjà cherché « le RNCP 35419 est-il encore actif ? »
-ou « mon SIRET est-il habilité pour former ET évaluer ? » dans un XML de 570 Mo…
+Les réponses sont publiques… dans un XML de 570 Mo mis à jour chaque nuit sur data.gouv.fr.
 
-J'ai publié **mcp-rncp** : un serveur MCP open source qui met le RNCP et le RS de France compétences directement dans
-Claude, ChatGPT ou Cursor.
+J'ai donc créé **mcp-rncp** : un serveur MCP open source qui met le RNCP et le RS de France compétences directement
+dans Claude, ChatGPT ou Cursor. Vous posez la question en français, vous obtenez une réponse sourcée et datée.
 
-Un chiffre pour commencer : **614 certifications RNCP actives expirent avant le 22 octobre 2026**, échéance à
-laquelle les offres sans blocs de compétences renseignés dans EDOF disparaissent de Mon Compte Formation.
+Un chiffre pour situer l'enjeu : **614 certifications RNCP actives arrivent à échéance avant le 22 octobre 2026**,
+date à laquelle les offres sans blocs de compétences renseignés dans EDOF deviennent invisibles sur Mon Compte
+Formation. Et 244 fiches RNCP actives n'ont aucun bloc publié.
 
-Ce que ça fait, en langage naturel :
-- « Le RNCP 37674 est-il actif, jusqu'à quand, remplacé par quoi ? »
-- « Le SIRET 8805… est-il habilité sur cette fiche, pour former ou évaluer ? »
-- « Liste-moi les blocs à cocher dans EDOF. »
-- « Certifications actives niveau 6 en cybersécurité, compare les deux premières. »
+Ce que ça fait :
+• Vérifier la validité et l'échéance d'une fiche, et trouver la fiche remplaçante
+• Vérifier si un SIRET est habilité, pour former ou évaluer
+• Lister les blocs de compétences prêts pour EDOF
+• Rechercher par niveau, domaine NSF, code ROME ; comparer deux certifications ; suivre les changements
 
-Zéro clé API, zéro LLM côté serveur, réponses sourcées et datées (données ouvertes France compétences, Licence
-Ouverte 2.0, rafraîchies chaque semaine).
+Gratuit, sans clé API, sans compte, zéro LLM côté serveur, données ouvertes (Licence Ouverte 2.0) rafraîchies
+chaque semaine. Code MIT.
 
-- Local : `npx -y mcp-rncp`
-- Hébergé : https://mcp-rncp.com/mcp
-- Code (MIT) : https://github.com/ALDEBERTArnaud/mcp-rncp
+→ Hébergé : https://mcp-rncp.com (URL connecteur : https://mcp-rncp.com/mcp)
+→ Local : npx -y mcp-rncp
+→ Code : https://github.com/ALDEBERTArnaud/mcp-rncp
 
-Retours bienvenus, surtout des OF/CFA qui préparent l'échéance EDOF. Une v2 « Pro » (vérification de catalogue en
-masse, alertes d'expiration et de retrait d'habilitation, export EDOF) est en réflexion : dites-moi ce qui vous
-ferait gagner du temps.
+Côté technique, pour les curieux : Cloudflare Workers + D1 (blue/green), SQLite FTS5 + synonymes, SDK MCP v2,
+ingestion hebdo par GitHub Actions, évals de recherche à 96 % de recall@5 sur des questions réelles.
 
-#RNCP #FranceCompetences #EDOF #CPF #Qualiopi #MCP #IA #Formation
+Je prépare une version Pro (vérification de catalogue en masse, alertes d'expiration et de retrait
+d'habilitation, rapport de conformité EDOF/Qualiopi). Si ça vous parle, dites-le moi en commentaire ou en MP :
+je construis avec les premiers intéressés.
 
-## 10 messages ciblés (canevas)
+#RNCP #FranceCompetences #EDOF #CPF #Qualiopi #FormationProfessionnelle #MCP #IA #OpenData #Claude
 
-Groupes LinkedIn/Facebook Qualiopi & EDOF, réseaux OF/CFA, OPCO, éditeurs SIRH/edtech :
+## Message court (groupes, MP) — 10 envois ciblés
 
-« Bonjour, je viens de publier un outil gratuit qui vérifie en une question la validité d'une fiche RNCP, l'habilitation
-d'un SIRET et les blocs à renseigner dans EDOF (échéance 22/10). Ça s'utilise dans Claude/ChatGPT/Cursor. Si vous
-préparez vos offres pour l'échéance, je serais preneur de vos retours : [lien]. »
+Bonjour, je viens de mettre en ligne un outil gratuit qui répond en une question dans Claude/ChatGPT :
+« cette fiche RNCP est-elle active ? », « mon SIRET est-il habilité ? », « quels blocs déclarer dans EDOF ? ».
+614 fiches actives expirent avant l'échéance EDOF du 22/10. Si vous préparez vos offres, je serais preneur de vos
+retours : https://mcp-rncp.com — Arnaud
+
+Cibles : groupes LinkedIn/Facebook Qualiopi & EDOF, réseaux OF/CFA (FFP, Les Acteurs de la Compétence,
+Synofdes), OPCO (Akto, Atlas, Opco EP), éditeurs SIRH/LMS/edtech, communautés MCP/Claude FR.
 
 ## Requêtes SQL des chiffres
 
 ```sql
--- RNCP actives expirant avant l'échéance EDOF
 SELECT count(*) FROM certifications WHERE actif=1 AND repertoire='RNCP'
-  AND date_fin_enregistrement BETWEEN '2026-08-17' AND '2026-10-22';           -- 614
--- Actives expirant d'ici fin 2026, par répertoire et par niveau
-SELECT repertoire, niveau, count(*) FROM certifications WHERE actif=1
-  AND date_fin_enregistrement BETWEEN '2026-08-17' AND '2026-12-31' GROUP BY 1,2;
--- RNCP actives sans bloc
+  AND date_fin_enregistrement BETWEEN date('now') AND '2026-10-22';                 -- 614 (au 16/08)
+SELECT repertoire, count(*) FROM certifications WHERE actif=1
+  AND date_fin_enregistrement BETWEEN date('now') AND '2026-12-31' GROUP BY 1;     -- 791 RNCP + 285 RS
 SELECT count(*) FROM certifications c WHERE actif=1 AND repertoire='RNCP'
-  AND NOT EXISTS (SELECT 1 FROM blocs b WHERE b.numero=c.numero);              -- 244
--- SIRET distincts habilités sur des fiches actives
+  AND NOT EXISTS (SELECT 1 FROM blocs b WHERE b.numero=c.numero);                  -- 244
 SELECT count(DISTINCT siret) FROM partenaires p JOIN certifications c ON c.numero=p.numero
-  WHERE c.actif=1 AND p.etat='Actif';                                          -- 20 257
+  WHERE c.actif=1 AND p.etat='Actif';                                              -- 20 257
 ```

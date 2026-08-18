@@ -52,6 +52,14 @@ export const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64
 <path d="M42.5 47.2l3 3 6-6.4" fill="none" stroke="#0b1220" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
+export const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+<rect width="64" height="64" rx="16" fill="url(#g)"/>
+<text x="31" y="47" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Inter,Roboto,Arial,sans-serif" font-size="42" font-weight="800" fill="#fff">R</text>
+<circle cx="50" cy="50" r="11" fill="#0b1220"/><circle cx="50" cy="50" r="9" fill="#22c55e"/>
+<path d="M45 50.3l3.4 3.4 6.6-7" fill="none" stroke="#0b1220" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
 const CSS = `
 :root{--bg:#0a0f1c;--bg2:#0e1526;--fg:#e6eaf2;--muted:#98a2b8;--card:#111a2e;--line:#1f2a44;--acc:#8b93ff;--acc-strong:#6366f1;--cyan:#22d3ee;--green:#22c55e;--code:#0b1220;--shadow:0 10px 30px rgba(0,0,0,.35)}
 @media(prefers-color-scheme:light){:root{--bg:#ffffff;--bg2:#f6f8fc;--fg:#0f172a;--muted:#5b6478;--card:#ffffff;--line:#e5e9f2;--acc:#4f46e5;--acc-strong:#4338ca;--cyan:#0891b2;--green:#16a34a;--code:#0f172a;--shadow:0 10px 30px rgba(15,23,42,.08)}}
@@ -65,8 +73,22 @@ header.top .wrap{display:flex;justify-content:space-between;align-items:center;h
 .brand svg{width:30px;height:30px}
 nav a{margin-left:22px;color:var(--fg);font-weight:500;font-size:.95rem;opacity:.9}
 nav a.pill{background:var(--acc-strong);color:#fff;padding:7px 12px;border-radius:999px;opacity:1}
-.hero{position:relative;padding:76px 0 40px;overflow:hidden}
-.hero:before{content:"";position:absolute;inset:-40% -20% auto -20%;height:520px;background:radial-gradient(600px 300px at 20% 30%,rgba(99,102,241,.35),transparent 60%),radial-gradient(500px 260px at 80% 20%,rgba(34,211,238,.28),transparent 60%);filter:blur(10px);pointer-events:none}
+.hero{position:relative;padding:72px 0 36px}
+body{background-image:radial-gradient(circle at 1px 1px,color-mix(in srgb,var(--fg) 7%,transparent) 1px,transparent 0);background-size:26px 26px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr}}
+.preview{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);position:relative}
+.preview:before{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;background:linear-gradient(135deg,rgba(99,102,241,.6),rgba(34,211,238,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.preview .bar{display:flex;gap:6px;margin-bottom:12px}.preview .bar i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
+.preview .bubble{box-shadow:none;font-size:.9rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 18px 56px;position:relative;box-shadow:var(--shadow)}
+.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:16px;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--acc-strong),var(--cyan))}
+.stat{position:relative;overflow:hidden}.stat:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--acc-strong),var(--cyan))}
+.kicker{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px}
+tr:nth-child(even) td{background:color-mix(in srgb,var(--fg) 2.5%,transparent)}
+.btn:hover{border-color:var(--acc)}.btn.primary:hover{filter:brightness(1.08)}
+.hero:before{content:"";position:absolute;inset:-120px -10% auto -10%;height:560px;background:radial-gradient(560px 280px at 18% 30%,rgba(99,102,241,.32),transparent 62%),radial-gradient(480px 240px at 82% 12%,rgba(34,211,238,.24),transparent 62%);filter:blur(14px);pointer-events:none;z-index:-1}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
 .eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
 h1{font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px;max-width:820px}
@@ -156,6 +178,7 @@ function layout(o: {
 <meta name="twitter:description" content="${esc(o.description)}">
 <meta name="twitter:image" content="${SITE.url}/logo.svg">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#4f46e5">
 <link rel="apple-touch-icon" href="/logo.svg">
 <link rel="alternate" type="text/plain" href="${SITE.url}/llms.txt" title="llms.txt">
 <style>${CSS}</style>
@@ -335,15 +358,28 @@ const authorBlock = `<div class="author">
 export function landingHtml(stats: Stats): string {
   const body = `
 <div class="hero">
-  <div class="eyebrow">Serveur MCP gratuit · données France compétences du ${frDate(stats.source_date)}</div>
-  <h1>Le RNCP et le RS, <em>directement dans Claude, ChatGPT et Cursor</em></h1>
-  <p class="lead">J'ai construit <strong>mcp-rncp</strong> pour ne plus jamais fouiller un XML de 570 Mo : posez la question à votre
-  assistant IA — validité d'une fiche, blocs de compétences EDOF, habilitation d'un SIRET, recherche par niveau ou domaine —
-  et obtenez une réponse sourcée et datée. Sans clé API, sans compte, open source.</p>
-  <div class="cta">
-    <a class="btn primary" href="/docs#installation">Installer en 1 minute</a>
-    <a class="btn" href="/docs">Lire la documentation</a>
-    <a class="btn" href="${SITE.repo}" rel="noopener">Code source (MIT)</a>
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Serveur MCP gratuit · données France compétences du ${frDate(stats.source_date)}</div>
+      <h1>Le RNCP et le RS, <em>directement dans Claude, ChatGPT et Cursor</em></h1>
+      <p class="lead">J'ai construit <strong>mcp-rncp</strong> pour ne plus jamais fouiller un XML de 570 Mo : posez la question à votre
+      assistant IA — validité d'une fiche, blocs de compétences EDOF, habilitation d'un SIRET, recherche par niveau ou domaine —
+      et obtenez une réponse sourcée et datée. Sans clé API, sans compte, open source.</p>
+      <div class="cta">
+        <a class="btn primary" href="/docs#installation">Installer en 1 minute</a>
+        <a class="btn" href="/docs">Lire la documentation</a>
+        <a class="btn" href="${SITE.repo}" rel="noopener">Code source (MIT)</a>
+      </div>
+    </div>
+    <div class="preview" aria-label="Aperçu d'une conversation">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="chat">
+        <div class="bubble q"><span class="who">Vous</span>Le RNCP 35419 est-il encore actif ? Le SIRET 88055223700047 est-il habilité sur le RNCP 37674 ?</div>
+        <div class="bubble a"><span class="who">Claude · check_validity, check_habilitation</span><strong>RNCP 35419 : non, plus actif</strong> depuis le 17 mars 2026 — remplacé par le RNCP 42147.<br>
+        <strong>SIRET 88055223700047 sur RNCP 37674 : habilité</strong>, former <em>et</em> évaluer, fiche active jusqu'au 1ᵉʳ septembre 2028.<br>
+        <span class="small" style="color:var(--muted)">Source : France compétences (data.gouv.fr), export du ${frDate(stats.source_date)}.</span></div>
+      </div>
+    </div>
   </div>
   <div class="stats">
     <div class="stat"><b>${fmt(stats.count_total)}</b><span>fiches RNCP + RS indexées</span></div>
@@ -355,7 +391,18 @@ export function landingHtml(stats: Stats): string {
   automatiquement chaque semaine ; la date affichée ici et dans chaque réponse est celle de la base réellement servie.</p>
 </div>
 
+<section id="comment">
+  <p class="kicker">Comment ça marche</p>
+  <h2>Trois étapes, zéro configuration</h2>
+  <div class="steps">
+    <div class="step"><h3>Connectez</h3><p style="margin:0;color:var(--muted)">Ajoutez <code>https://mcp-rncp.com/mcp</code> comme connecteur dans Claude, Cursor ou ChatGPT — ou lancez <code>npx -y mcp-rncp</code> en local.</p></div>
+    <div class="step"><h3>Demandez</h3><p style="margin:0;color:var(--muted)">En français, comme à un collègue : « le 37674 est-il actif ? », « qui est habilité ? », « quels blocs pour EDOF ? ».</p></div>
+    <div class="step"><h3>Vérifiez</h3><p style="margin:0;color:var(--muted)">Chaque réponse cite France compétences, la date de l'export et l'URL de la fiche officielle. Rien d'inventé.</p></div>
+  </div>
+</section>
+
 <section id="pourquoi">
+  <p class="kicker">Le problème</p>
   <h2>Pourquoi je l'ai construit</h2>
   <p class="sub">Organismes de formation, OPCO, services RH, candidats : tout le monde se pose les mêmes questions.
   La fiche est-elle <strong>encore active</strong> ? jusqu'à quand ? qui est <strong>habilité</strong> à former ou à évaluer ?
@@ -367,23 +414,21 @@ export function landingHtml(stats: Stats): string {
 </section>
 
 <section id="exemples">
+  <p class="kicker">Exemple</p>
   <h2>À quoi ça ressemble</h2>
   <p class="sub">Une conversation réelle dans Claude, connecteur mcp-rncp activé.</p>
   <div class="chat">
-    <div class="bubble q"><span class="who">Vous</span>Le RNCP 35419 est-il encore actif ? Le SIRET 88055223700047 est-il habilité sur le RNCP 37674 ?</div>
-    <div class="bubble a"><span class="who">Claude · 2 outils utilisés</span><strong>RNCP 35419 – Expert en ingénierie du logiciel (niveau 7) : non, il n'est plus actif.</strong>
-    L'enregistrement a pris fin le 17 mars 2026. Plus de nouvelles entrées en formation possibles ; il est remplacé par le RNCP 42147.<br><br>
-    <strong>SIRET 88055223700047 sur le RNCP 37674 – Développeur web et web mobile (niveau 5) : oui, habilité.</strong>
-    Rôles : former <em>et</em> évaluer, état « Actif », fiche active jusqu'au 1er septembre 2028.<br>
-    <span class="small" style="color:var(--muted)">Source : France compétences (data.gouv.fr), données au ${frDate(stats.source_date)}.</span></div>
     <div class="bubble q"><span class="who">Vous</span>Liste-moi les blocs à déclarer dans EDOF pour le 37674.</div>
     <div class="bubble a"><span class="who">Claude · list_blocs</span><strong>Deux blocs :</strong> RNCP37674BC01 — Développer la partie front-end d'une application web ou web mobile sécurisée ·
     RNCP37674BC02 — Développer la partie back-end d'une application web ou web mobile sécurisée.<br>
     <span class="small" style="color:var(--muted)">Fiche : francecompetences.fr/recherche/rncp/37674/</span></div>
+    <div class="bubble q"><span class="who">Vous</span>Trouve les certifications actives de niveau 6 en cybersécurité et compare les deux premières.</div>
+    <div class="bubble a"><span class="who">Claude · search_certifications, compare_certifications</span>10 résultats, dont RNCP37300 « Responsable en cybersécurité » et RNCP37473 « Sciences et ingénierie – Cybersécurité » : même niveau, un code NSF commun, recouvrement des blocs 12 %…</div>
   </div>
 </section>
 
 <section id="connexion">
+  <p class="kicker">Installation</p>
   <h2>Se connecter</h2>
   <p class="sub">Une URL, aucun compte. La version locale tourne sur votre machine si vous préférez.</p>
   <div class="grid">
@@ -396,12 +441,14 @@ export function landingHtml(stats: Stats): string {
 </section>
 
 <section id="outils">
+  <p class="kicker">Outils</p>
   <h2>Neuf outils, tous en lecture seule</h2>
   ${toolsTable}
   <p><a href="/docs#outils">Détail des paramètres et des réponses →</a></p>
 </section>
 
 <section id="fiabilite">
+  <p class="kicker">Fiabilité</p>
   <h2>Ce que je garantis</h2>
   <div class="grid">
     <div class="card"><h3>Sourcé</h3><p>Chaque réponse cite France compétences, la licence, la date de l'export et l'URL de la fiche officielle.</p></div>
@@ -412,11 +459,13 @@ export function landingHtml(stats: Stats): string {
 </section>
 
 <section id="faq">
+  <p class="kicker">FAQ</p>
   <h2>Questions fréquentes</h2>
   ${faqHtml}
 </section>
 
 <section id="auteur">
+  <p class="kicker">Auteur</p>
   <h2>Qui suis-je</h2>
   ${authorBlock}
 </section>
