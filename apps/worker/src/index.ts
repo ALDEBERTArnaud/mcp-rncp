@@ -3,7 +3,15 @@ import { createServer, type Db, SERVER_VERSION } from "@mcp-rncp/core";
 import { pickReadySlot, type Slot } from "@mcp-rncp/db-d1";
 import { createMcpHandler } from "@modelcontextprotocol/server";
 import { type Context, Hono } from "hono";
-import { docsHtml, landingHtml, llmsTxt, ROBOTS, type Stats, sitemapXml } from "./pages.ts";
+import {
+  docsHtml,
+  LOGO_SVG,
+  landingHtml,
+  llmsTxt,
+  ROBOTS,
+  type Stats,
+  sitemapXml,
+} from "./pages.ts";
 
 type Env = {
   DB_A: D1Database;
@@ -83,6 +91,9 @@ app.get("/llms.txt", async (c) =>
 );
 app.get("/sitemap.xml", async (c) => page(c, sitemapXml(await stats(c.env)), "application/xml"));
 app.get("/robots.txt", (c) => page(c, ROBOTS, "text/plain; charset=utf-8"));
+app.get("/logo.svg", (c) => page(c, LOGO_SVG, "image/svg+xml"));
+app.get("/favicon.svg", (c) => page(c, LOGO_SVG, "image/svg+xml"));
+app.get("/favicon.ico", (c) => c.redirect("/favicon.svg", 301));
 
 app.get("/health", async (c) => {
   try {
