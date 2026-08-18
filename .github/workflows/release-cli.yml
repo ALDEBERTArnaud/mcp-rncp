@@ -35,7 +35,9 @@ jobs:
         working-directory: apps/cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+        run: |
+          PKG=$(jq -r .version package.json)
+          if npm view "mcp-rncp@$PKG" version >/dev/null 2>&1; then echo "mcp-rncp@$PKG already published"; else npm publish --provenance --access public; fi
       - name: Publish to the official MCP Registry
         run: |
           curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
