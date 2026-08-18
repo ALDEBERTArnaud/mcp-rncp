@@ -5,7 +5,7 @@ import { registerResources } from "./resources.ts";
 import { registerTools } from "./tools.ts";
 
 export const SERVER_NAME = "mcp-rncp";
-export const SERVER_VERSION = "0.1.2";
+export const SERVER_VERSION = "0.1.3";
 
 export type CreateServerOptions = {
   db: Db;

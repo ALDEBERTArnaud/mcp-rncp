@@ -1,7 +1,7 @@
 {
   "name": "mcp-rncp",
-  "version": "0.1.2",
-  "mcpName": "io.github.aldebertarnaud/mcp-rncp",
+  "version": "0.1.3",
+  "mcpName": "io.github.ALDEBERTArnaud/mcp-rncp",
   "description": "MCP server for the French RNCP / RS registers of professional certifications (France compétences open data). Local stdio server with embedded SQLite, no API key.",
   "license": "MIT",
   "author": "Arnaud Aldebert <arnaudtishu@gmail.com>",
