@@ -20,7 +20,7 @@ import { pipeline } from "node:stream/promises";
 import { createBrotliDecompress } from "node:zlib";
 
 export const REPO = "ALDEBERTArnaud/mcp-rncp";
-const RELEASES_API = `https://api.github.com/repos/${REPO}/releases?per_page=20`;
+const RELEASES = `https://github.com/${REPO}/releases`;
 const CHECK_INTERVAL_MS = 24 * 3600 * 1000;
 
 export type Manifest = {
@@ -31,7 +31,7 @@ export type Manifest = {
   sqlite_br: { bytes: number; sha256: string };
 };
 
-export type Release = { tag: string; manifestUrl: string; dbUrl: string; publishedAt: string };
+export type Release = { tag: string; manifest: Manifest; manifestUrl: string; dbUrl: string };
 
 export const log = (msg: string, extra: Record<string, unknown> = {}) =>
   console.error(JSON.stringify({ level: "info", msg, ...extra }));
@@ -49,39 +49,20 @@ export const dbFile = (dir: string, sourceDate: string) => join(dir, `rncp-${sou
 const manifestPath = (dir: string) => join(dir, "manifest.json");
 const lastCheckPath = (dir: string) => join(dir, "last-check");
 
-async function ghFetch(url: string): Promise<Response> {
-  const headers: Record<string, string> = {
-    "user-agent": "mcp-rncp-cli",
-    accept: "application/vnd.github+json",
-  };
-  if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  const res = await fetch(url, { headers });
-  if (!res.ok) throw new Error(`GitHub API ${res.status} for ${url}`);
-  return res;
-}
-
+// No GitHub API (60 req/h per IP unauthenticated): the "latest" release redirect and asset downloads are
+// served by GitHub's CDN without quota. Data releases are the only GitHub Releases of the repo.
 export async function latestDataRelease(): Promise<Release> {
-  const releases = (await (await ghFetch(RELEASES_API)).json()) as Array<{
-    tag_name: string;
-    published_at: string;
-    draft: boolean;
-    assets: Array<{ name: string; browser_download_url: string }>;
-  }>;
-  const data = releases
-    .filter((r) => !r.draft && r.tag_name.startsWith("data-"))
-    .sort((a, b) => (a.tag_name < b.tag_name ? 1 : -1));
-  for (const r of data) {
-    const m = r.assets.find((a) => a.name === "manifest.json");
-    const d = r.assets.find((a) => a.name === "rncp.sqlite.br");
-    if (m && d)
-      return {
-        tag: r.tag_name,
-        manifestUrl: m.browser_download_url,
-        dbUrl: d.browser_download_url,
-        publishedAt: r.published_at,
-      };
-  }
-  throw new Error(`No data release found on ${REPO}`);
+  const manifestUrl = `${RELEASES}/latest/download/manifest.json`;
+  const res = await fetch(manifestUrl, { headers: { "user-agent": "mcp-rncp-cli" } });
+  if (!res.ok) throw new Error(`cannot fetch ${manifestUrl}: ${res.status}`);
+  const manifest = (await res.json()) as Manifest;
+  const tag = `data-${manifest.source_date}`;
+  return {
+    tag,
+    manifest,
+    manifestUrl,
+    dbUrl: `${RELEASES}/download/${tag}/rncp.sqlite.br`,
+  };
 }
 
 async function sha256File(path: string): Promise<string> {
@@ -93,7 +74,7 @@ async function sha256File(path: string): Promise<string> {
 // Downloads rncp.sqlite.br, decompresses to rncp-<date>.sqlite.tmp, verifies sha256, renames, writes manifest.
 export async function downloadRelease(release: Release, dir: string): Promise<Manifest> {
   mkdirSync(dir, { recursive: true });
-  const manifest = (await (await fetch(release.manifestUrl)).json()) as Manifest;
+  const manifest = release.manifest;
   log("downloading data", {
     tag: release.tag,
     mb: Math.round(manifest.sqlite_br.bytes / 1e6),
