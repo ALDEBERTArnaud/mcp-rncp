@@ -8,3 +8,4 @@ dist/
 .env
 .env.*
 !fixtures/rncp.fixture.sqlite
+BRIEF.md

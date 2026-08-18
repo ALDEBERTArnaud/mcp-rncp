@@ -63,7 +63,7 @@ async function slotMeta(db: string): Promise<{ status?: string; source_date?: st
 }
 
 const metas = await Promise.all(slots.map(slotMeta));
-slots.forEach((s, i) => log("slot", { db: s, ...metas[i] }));
+for (const [i, s] of slots.entries()) log("slot", { db: s, ...metas[i] });
 // Target = a slot that is not ready, else the one with the oldest source_date.
 let target = slots.findIndex((_, i) => metas[i]!.status !== "ready");
 if (target < 0) target = metas[0]!.source_date! <= metas[1]!.source_date! ? 0 : 1;

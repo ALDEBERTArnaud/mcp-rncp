@@ -86,9 +86,7 @@ export async function latestDataRelease(): Promise<Release> {
 
 async function sha256File(path: string): Promise<string> {
   const h = createHash("sha256");
-  await pipeline(createReadStream(path), async function* (src) {
-    for await (const chunk of src) h.update(chunk as Buffer);
-  });
+  for await (const chunk of createReadStream(path)) h.update(chunk as Buffer);
   return h.digest("hex");
 }
 
