@@ -1,0 +1,1 @@
+{ "mcpServers": { "rncp": { "command": "npx", "args": ["-y", "mcp-rncp"] } } }
