@@ -83,7 +83,12 @@ export async function downloadRelease(release: Release, dir: string): Promise<Ma
   const res = await fetch(release.dbUrl);
   if (!res.ok || !res.body) throw new Error(`download failed: ${res.status}`);
   const target = dbFile(dir, manifest.source_date);
-  const tmp = `${target}.tmp`;
+  if (existsSync(target) && statSync(target).size === manifest.sqlite.bytes) {
+    log("data already present", { tag: release.tag });
+    await writeFile(manifestPath(dir), JSON.stringify(manifest, null, 2));
+    return manifest;
+  }
+  const tmp = `${target}.${process.pid}.tmp`;
   await pipeline(
     Readable.fromWeb(res.body as import("node:stream/web").ReadableStream),
     createBrotliDecompress(),
@@ -94,7 +99,8 @@ export async function downloadRelease(release: Release, dir: string): Promise<Ma
     unlinkSync(tmp);
     throw new Error(`checksum mismatch for ${release.tag}: ${sha}`);
   }
-  renameSync(tmp, target);
+  if (existsSync(target) && statSync(target).size === manifest.sqlite.bytes) unlinkSync(tmp);
+  else renameSync(tmp, target);
   await writeFile(manifestPath(dir), JSON.stringify(manifest, null, 2));
   await writeFile(lastCheckPath(dir), String(Date.now()));
   log("data ready", { tag: release.tag, source_date: manifest.source_date });
@@ -117,16 +123,17 @@ export async function localDb(dir: string): Promise<string | null> {
   return existsSync(f) && statSync(f).size > 0 ? f : null;
 }
 
-// Removes stale rncp-*.sqlite files (previous versions, aborted downloads).
+// Removes stale rncp-*.sqlite files (previous versions, aborted downloads). Fresh .tmp files may belong to a
+// sibling process (Claude Desktop and an IDE often start the server concurrently): keep them for 15 minutes.
 export function cleanup(dir: string, keep: string | null): void {
   try {
     for (const name of readdirSync(dir)) {
       const p = join(dir, name);
-      if (/^rncp-\d{4}-\d{2}-\d{2}\.sqlite(\.tmp)?$/.test(name) && p !== keep) {
-        try {
-          unlinkSync(p);
-        } catch {}
-      }
+      if (!/^rncp-\d{4}-\d{2}-\d{2}\.sqlite(\.\d+)?(\.tmp)?$/.test(name) || p === keep) continue;
+      try {
+        if (name.endsWith(".tmp") && Date.now() - statSync(p).mtimeMs < 15 * 60_000) continue;
+        unlinkSync(p);
+      } catch {}
     }
   } catch {}
 }
