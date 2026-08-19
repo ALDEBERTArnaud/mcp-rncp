@@ -172,14 +172,18 @@ function layout(o: {
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${SITE.url}/logo.svg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${SITE.url}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="mcp-rncp — le RNCP et le RS dans Claude, ChatGPT et Cursor">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(o.title)}">
 <meta name="twitter:description" content="${esc(o.description)}">
-<meta name="twitter:image" content="${SITE.url}/logo.svg">
+<meta name="twitter:image" content="${SITE.url}/og.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="mask-icon" href="/favicon.svg" color="#4f46e5">
-<link rel="apple-touch-icon" href="/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="alternate" type="text/plain" href="${SITE.url}/llms.txt" title="llms.txt">
 <style>${CSS}</style>
 ${o.jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
@@ -227,7 +231,7 @@ function softwareLd(stats: Stats) {
     operatingSystem: "Any (hosted) · Node.js ≥ 22.16 (local)",
     softwareVersion: SERVER_VERSION,
     url: SITE.url,
-    image: `${SITE.url}/logo.svg`,
+    image: `${SITE.url}/logo.png`,
     downloadUrl: SITE.npm,
     installUrl: SITE.npm,
     codeRepository: SITE.repo,

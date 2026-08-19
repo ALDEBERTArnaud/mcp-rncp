@@ -94,7 +94,6 @@ app.get("/sitemap.xml", async (c) => page(c, sitemapXml(await stats(c.env)), "ap
 app.get("/robots.txt", (c) => page(c, ROBOTS, "text/plain; charset=utf-8"));
 app.get("/logo.svg", (c) => page(c, LOGO_SVG, "image/svg+xml"));
 app.get("/favicon.svg", (c) => page(c, FAVICON_SVG, "image/svg+xml"));
-app.get("/favicon.ico", (c) => c.redirect("/favicon.svg", 301));
 
 app.get("/health", async (c) => {
   try {
